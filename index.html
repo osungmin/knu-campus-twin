@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KNU Campus · Digital Twin Demo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div><div class="eyebrow">KANGWON NATIONAL UNIVERSITY · CHUNCHEON</div><h1>Campus <em>Digital Twin</em></h1></div><span class="tag">SIMULATION DEMO</span></header>
+<div class="layout">
+<aside>
+<div class="intro"><div class="eyebrow">01 / MODEL PARAMETERS</div><h2>캠퍼스 환경<br>확산 시뮬레이터</h2><p>가상 오염원을 배치하고 바람과 확산계수를 조절해 이동과 확산을 확인하세요.</p></div>
+<div class="control"><div class="row"><label for="D">Diffusion coefficient · D</label><output id="D-val">180 m²/min</output></div><input id="D" type="range" min="20" max="800" step="10" value="180"></div>
+<div class="control"><div class="row"><label for="u">Flow speed · u</label><output id="u-val">9 m/min</output></div><input id="u" type="range" min="0" max="40" step="1" value="9"></div>
+<div class="control"><div class="row"><label for="angle">Flow direction</label><output id="angle-val">90° · E</output></div><input id="angle" type="range" min="0" max="360" step="5" value="90"><div class="ticks"><span>N</span><span>E</span><span>S</span><span>W</span></div></div>
+<div class="divider"></div>
+<div class="eyebrow">02 / EXPERIMENT</div><div class="presets"><button data-preset="diff">Diffusion only</button><button data-preset="both" class="selected">Move + Spread</button><button data-preset="wind">Strong wind</button></div>
+<div class="control"><div class="row"><label for="time">Simulation time</label><output id="time-val">0 min</output></div><input id="time" type="range" min="0" max="60" step="0.5" value="0"><div class="ticks"><span>0 min</span><span>30 min</span><span>60 min</span></div></div>
+<div class="actions"><button id="play" class="primary">▶ Play</button><button id="reset">↺ Reset</button></div>
+<div class="divider"></div><div class="eyebrow">03 / MAP INTERACTION</div><div class="actions"><button id="source" class="selected">● 오염원 지정</button><button id="sensor">◎ 센서 지정</button></div><p class="hint" id="hint">지도를 클릭하면 가상 오염원이 이동합니다.</p>
+<div class="notice"><strong>Idealized Gaussian model</strong><p>일정한 D와 균일한 바람을 가정한 교육용 시뮬레이션입니다. 실제 오염도·기상 관측값이 아닙니다.</p></div>
+</aside>
+<main>
+<div class="map-head"><div><div class="eyebrow">04 / LIVE SIMULATION</div><h2>강원대학교 춘천캠퍼스</h2><p>지도를 클릭해 가상 오염원 또는 관측점을 지정하세요.</p></div><div class="map-tools"><span id="provider">OpenStreetMap</span><button id="home">⌖ 캠퍼스 중심</button></div></div>
+<div class="map-wrap" id="map-wrap"><div id="map"></div><canvas id="plume"></canvas><div class="pin source-pin" id="source-pin">●</div><div class="pin sensor-pin" id="sensor-pin">◎</div><div class="map-status" id="status">● MODEL READY</div><div class="legend"><small>RELATIVE CONCENTRATION</small><div class="gradient"></div><div class="ticks"><span>Low</span><span>High</span></div></div></div>
+<div class="metrics"><div><small>CENTER DISPLACEMENT</small><strong id="dist">0 m</strong><span>Advection · u × t</span></div><div><small>SPREAD (σ)</small><strong id="spread">45 m</strong><span>Diffusion · √(σ₀² + 2Dt)</span></div><div><small>RELATIVE PEAK</small><strong id="peak">100%</strong><span>Compared with t = 0</span></div><div><small>VIRTUAL SENSOR</small><strong id="reading">—</strong><span>Relative concentration</span></div></div>
+<div class="formula">∂C/∂t = −u · ∇C + D∇²C <span>2D Gaussian analytical forward model · No real sensors connected</span></div>
+</main>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="config.js"></script><script src="app.js"></script>
+</body>
+</html>
